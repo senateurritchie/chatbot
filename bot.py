@@ -1,7 +1,6 @@
 
 from typing import List 
-from bs4 import BeautifulSoup
-from lxml import etree
+import lxml
 
 class AddressItem:
 	"""docstring for AddressItem"""
@@ -36,29 +35,27 @@ class ChatBot:
 		self.name = None
 		self.version = None
 		self.Person:Author = None
-		self.soup:BeautifulSoup = None
+		self.xml_root = None
 
 	def __repr__(self) -> str:
 		return "ChatBot name<{name}>, version<{version}>".format(name=self.name, version=self.version)
 
 	def run(self):
-		xml_content:str = None;
-		xsd_root:str = None;
+		xml_root = lxml.etree.parse("data.xml")
+		xsd_root = lxml.etree.parse("schema.xsd")
 
-		# with open("data.xml") as f:
-		# 	xml_root = f.read()
+		try:                                                                        
+			schema = lxml.etree.XMLSchema(xsd_root)
+			schema.assertValid(xml_root)
+		except lxml.etree.XMLSchemaParseError as e:                                 
+			print(e)                                                               
+			exit(1) 
+		except lxml.etree.DocumentInvalid as e:  
+			print(e)                                                               
+			exit(1) 
+		self.xml_root = xml_root;
 
-		# with open("schema.xsd") as f:
-		# 	xsd_root = f.read()
-
-		# print(self.soup)
-
-		xml_root = etree.parse("data.xml")
-		xsd_root = etree.parse("schema.xsd")
-		schema = etree.XMLSchema(xsd_root)
-
-		print(schema)
-		schema.validate(xml_root)
+		help(xml_root)
 
 
 

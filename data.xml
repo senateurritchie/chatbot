@@ -5,7 +5,7 @@
  xsi:noNamespaceSchemaLocation="schema.xsd" >
 
 	<!-- LES PARAMETRES DU BOT -->
-	<Settings cool="true">
+	<Settings>
 		<Name>Bot MxWizard v1.0.0</Name>
 		<Website>https://chatbot.io</Website>
 
