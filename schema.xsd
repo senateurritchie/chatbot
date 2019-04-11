@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" >
+
+	
+<xsd:simpleType name="email">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[\w_\+-]+@[\w-]+\.[a-zA-Z]{2,}" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="phone">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="(\+|00)\d{3}\d+" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:element name="Website" type="xsd:anyURI" />
+
+	<xsd:element name="Name">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:minLength value="3" />
+				<xsd:maxLength value="30" />
+				<xsd:whiteSpace value="collapse" />
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+
+	<xsd:element name="Email">
+		<xsd:complexType>
+			<xsd:simpleContent>
+				<xsd:extension base="email">
+					
+					<xsd:attribute name="type">
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:enumeration value="personal" />
+								<xsd:enumeration value="profesional" />
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:attribute>
+
+				</xsd:extension>
+			</xsd:simpleContent>
+		</xsd:complexType>
+		
+	</xsd:element>
+
+	<xsd:element name="Phone">
+		<xsd:complexType>
+			<xsd:simpleContent>
+				<xsd:extension base="phone">
+					<xsd:attribute name="type">
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:enumeration value="personal" />
+								<xsd:enumeration value="profesional" />
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:attribute>
+				</xsd:extension>
+			</xsd:simpleContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="Phones">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Phone" maxOccurs="unbounded" minOccurs="0"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="Emails">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Email" maxOccurs="unbounded" minOccurs="0"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="Address">
+		<xsd:complexType>
+			<xsd:all>
+				<xsd:element ref="Emails" />
+				<xsd:element ref="Phones" />
+				
+				<xsd:element ref="Website" />
+			</xsd:all>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="Author">
+		<xsd:complexType>
+			<xsd:all>
+				<xsd:element ref="Name" />
+				<xsd:element ref="Address" />
+			</xsd:all>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="Settings">
+		<xsd:complexType>
+			<xsd:all>
+				<xsd:element ref="Name" />
+				<xsd:element ref="Website" minOccurs="0" />
+				<xsd:element ref="Author" />
+			</xsd:all>
+		</xsd:complexType>
+	</xsd:element>
+
+
+	<xsd:element name="Label">
+		<xsd:complexType>
+			<xsd:simpleContent>
+				<xsd:extension base="xsd:string">
+					<xsd:attribute name="is-prefixed" type="xsd:boolean" default="false" />
+				</xsd:extension>
+			</xsd:simpleContent>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="Labels">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Label" minOccurs="0" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+
+	<xsd:element name="Question">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Labels" />
+				<xsd:element ref="Responses" />
+			</xsd:sequence>
+
+			<xsd:attribute name="type" default="predefined">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="predefined" />
+						<xsd:enumeration value="fallback" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+
+
+	<xsd:element name="Response">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Labels" />
+			</xsd:sequence>
+			<xsd:attribute name="is-prefix" type="xsd:boolean" default="false" />
+		</xsd:complexType>
+	</xsd:element>
+
+
+	<xsd:element name="Responses">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Response" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	
+	<xsd:element name="Questions">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Question" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="Unknows">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Labels" minOccurs="0" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="Chatbot">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Settings" />
+				<xsd:element ref="Questions" />
+				<xsd:element ref="Unknows" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

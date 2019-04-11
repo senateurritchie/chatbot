@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Chatbot 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:noNamespaceSchemaLocation="schema.xsd" >
+
+	<!-- LES PARAMETRES DU BOT -->
+	<Settings>
+		<Name>Bot MxWizard v1.0.0</Name>
+		<Website>https://chatbot.io</Website>
+
+		<Author>
+			<Name>Zacharie A. Assagou</Name>
+			<Address>
+				<Emails>
+					<Email type="personal">zakeszako@yahoo.fr</Email>
+					<Email type="profesional">admin@chatbot.io</Email>
+				</Emails>
+
+				<Phones>
+					<Phone type="personal">+22571439414</Phone>
+					<Phone type="profesional">+22522479613</Phone>
+				</Phones>
+
+				<Website>https://chatbot.io/about</Website>
+			</Address>
+		</Author>
+	</Settings>
+	
+	<!-- LES QUESTIONS APPRISES -->
+	<Questions>
+		<Question type="predefined">
+
+			<Labels>
+				<Label>Comment t'appelles-tu</Label>
+				<Label>Comment tu t'appelles</Label>
+				<Label>Comment vous appellez-vous</Label>
+				<Label>Comment vous vous appellez</Label>
+				
+				<Label>Quel est {{ votre|ton }} nom</Label>
+				<Label>{{ Votre|Ton }} nom</Label>
+				<Label>Nom</Label>
+			</Labels>
+
+			<Responses>
+				
+				<Response>
+					<Labels>
+						<Label>{{ On|Je }} m'appelle {{NAME}}.</Label>
+					</Labels>
+				</Response>
+
+				<Response>
+					<Labels>
+						<Label>Tu peux m'appeller {{NAME}}.</Label>
+					</Labels>
+				</Response>
+
+				<Response>
+					<Labels>
+						<Label>Vous pouvez m'appeller {{NAME}}.</Label>
+					</Labels>
+				</Response>
+
+				<Response>
+					<Labels>
+						<Label>Mon nom est {{NAME}}.</Label>
+					</Labels>
+				</Response>
+
+				<Response>
+					<Labels>
+						<Label>Je m'appelle {{NAME}} à l'Etat Civil.</Label>
+					</Labels>
+				</Response>
+
+				<Response>
+					<Labels>
+						<Label>{{NAME}} à l'Etat Civil.</Label>
+					</Labels>
+				</Response>
+
+				<Response>
+					<Labels>
+						<Label>{{NAME}} est mon nom.</Label>
+					</Labels>
+				</Response>
+
+			</Responses>
+
+		</Question>
+
+		<Question type="fallback">
+
+			<Labels>
+				<Label>*</Label>
+			</Labels>
+
+			<Responses>
+				
+				<Response is-prefix="true">
+					<Labels>
+						<Label>Désolé, </Label>
+					</Labels>
+				</Response>
+
+				<Response>
+					<Labels>
+						<Label>je ne comprends pas.</Label>
+					</Labels>
+				</Response>
+
+				<Response>
+					<Labels>
+						<Label>pouvez-vous reformuler svp ?</Label>
+					</Labels>
+				</Response>
+
+			</Responses>
+
+		</Question>
+	</Questions>
+	
+	<!-- LES QUESTIONS A APPRENDRE -->
+	<Unknows>
+		
+	</Unknows>
+</Chatbot>
