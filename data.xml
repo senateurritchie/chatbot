@@ -6,8 +6,16 @@
 
 	<!-- LES PARAMETRES DU BOT -->
 	<Settings>
-		<Name>Bot MxWizard v1.0.0</Name>
+		<Name>Bot MxWizard</Name>
+		<Welcome>
+			***************************************************************************
+			*                                                                         *
+			*           BIENVENU, PROGRAMME DEVELOPPE PAR AAZ CONSULTING              *
+			*                                                                         *
+			***************************************************************************
+		</Welcome>
 		<Website>https://chatbot.io</Website>
+		<Version>1.0.0</Version>
 
 		<Author>
 			<Name>Zacharie A. Assagou</Name>
@@ -90,11 +98,7 @@
 
 		</Question>
 
-		<Question type="fallback">
-
-			<Labels>
-				<Label>*</Label>
-			</Labels>
+		<Default>
 
 			<Responses>
 				
@@ -118,7 +122,7 @@
 
 			</Responses>
 
-		</Question>
+		</Default>
 	</Questions>
 	
 	<!-- LES QUESTIONS A APPRENDRE -->
