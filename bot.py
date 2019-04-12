@@ -70,6 +70,8 @@ class ChatBot:
 		self.name = None
 		self.website = None
 		self.version = None
+		self.birth = None
+		self.company = None
 		self.welcomeText:str = None
 		self.questions:list = []
 		self.author:Person = None
@@ -80,6 +82,54 @@ class ChatBot:
 	def __repr__(self) -> str:
 		return "ChatBot name<{name}>, version<{version}>, \n{author}".format(name=self.name, version=self.version,author=self.author)
 
+	def saveSettings(self):
+		"""
+		apres chargement du jeux de donnée
+		il faut sauvegarde les valeurs de la balise <Settings>
+		"""
+
+		settings = self.xml_root.find("Settings")
+		self.welcomeText = settings.find("Welcome").text
+		for item in settings:
+			if item.tag == "Name":
+				self.name = item.text
+			elif item.tag == "Version":
+				self.version = item.text
+			elif item.tag == "Website":
+				self.website = item.text
+			elif item.tag == "Birth":
+				self.birth = item.text
+			elif item.tag == "Company":
+				company = {}
+				name = item.find('Name')
+				birth = item.find('Birth')
+				ceo = item.find('Ceo')
+				if name is not None:
+					company['name'] = name.text
+				if birth is not None:
+					company['birth'] = birth.text
+				if ceo is not None:
+					company['ceo'] = ceo.text
+
+				self.company = company
+
+			elif item.tag == "Author":
+				self.author = Person()
+				self.author.name = item.find('Name').text
+				address = Address()
+				addressTag = item.find('Address')
+				address.website = addressTag.find('Website').text
+				for i in addressTag.find('Emails'):
+					address.emails.append(Email(i.text,i.get('type')))
+
+				for i in addressTag.find('Phones'):
+					address.phones.append(Phone(i.text,i.get('type')))
+
+				self.author.address = address
+
+		# on recupere les questions
+		self.questions = self.xml_root.find("Questions")
+
 	def selectQuestion(self,q:str):
 		"""
 		cette fonction cherche dans la base de memoire
@@ -87,6 +137,7 @@ class ChatBot:
 		"""
 
 		prog = re.compile("(.+)?(?P<choices>\{\{.+?\}\})(.+)?")
+		reg = re.compile("(?:\{\{|__)(?P<MARKER>.+?)(?:\}\}|__)")
 
 		keywords:list = q.split(" ")
 		kwt = [re.compile(" *({}) *".format(re.escape(i))) for i in keywords if i]
@@ -110,6 +161,8 @@ class ChatBot:
 
 							
 										h = " ".join(h)
+										h = re.sub(reg,self.formatAnswer,h) 
+
 										t = damerau_levenshtein(q,h)
 										kwl = []
 
@@ -144,10 +197,23 @@ class ChatBot:
 
 		return choice;
 
-	def checkForMarkers(self,e:re.Match):
+	def formatAnswer(self,e:re.Match):
 
 		if e.group("MARKER") == "NAME":
 			return self.name.strip()
+
+		elif e.group("MARKER") == "COMPANY_NAME":
+			return self.company.get("name").strip() if self.company is not None else e.group("MARKER")
+
+		elif e.group("MARKER") == "COMPANY_BIRTH":
+			return self.company.get("birth").strip() if self.company is not None else e.group("MARKER")
+
+		elif e.group("MARKER") == "COMPANY_CEO":
+			return self.company.get("ceo").strip() if self.company is not None else e.group("MARKER")
+
+		elif e.group("MARKER") == "BIRTH":
+			return self.birth.strip() if self.birth is not None else e.group("MARKER")
+
 		else:
 			choices = e.group("MARKER").split("|")
 			return random.choice(choices).strip()
@@ -158,16 +224,25 @@ class ChatBot:
 		permet de selectionner une reponse à partir
 		du choix d'une question.
 		"""
-		reg = re.compile("\{\{(?P<MARKER>.+?)\}\}")
-
+		reg = re.compile("(?:\{\{|__)(?P<MARKER>.+?)(?:\}\}|__)")
+		responsesTag = None
 		if choice[1] == 0:
-			responses = self.questions[len(self.questions)-1].find("Responses")
+			responsesTag = self.questions[len(self.questions)-1].find("Responses")
 		else:
-			responses = self.questions[choice[2]].find("Responses")
+			responsesTag = self.questions[choice[2]].find("Responses")
+
+		responses = responsesTag.findall("Response")
 
 		response = random.choice(responses)
 		responseText = response.find('Labels').find("Label").text
-		responseText = re.sub(reg,self.checkForMarkers,responseText)
+		responseText = "[Reponse]: " +re.sub(reg,self.formatAnswer,responseText)
+
+
+		proactivity = responsesTag.find("Proactivity")
+
+		if proactivity is not None:
+			selected = random.choice(proactivity.find('Labels'))
+			responseText = responseText + "\n" + "[Reponse]: " +re.sub(reg,self.formatAnswer,selected.text) 
 
 		return responseText;
 	
@@ -185,34 +260,10 @@ class ChatBot:
 		except etree.DocumentInvalid as e:  
 			print(e)                                                               
 			exit(1) 
+		
 		self.xml_root = xml_root;
+		self.saveSettings()
 
-		# on recupere les informations de <Settings>
-		settings = xml_root.find("Settings")
-		self.welcomeText = settings.find("Welcome").text
-		for item in settings:
-			if item.tag == "Name":
-				self.name = item.text
-			elif item.tag == "Version":
-				self.version = item.text
-			elif item.tag == "Website":
-				self.website = item.text
-			elif item.tag == "Author":
-				self.author = Person()
-				self.author.name = item.find('Name').text
-				address = Address()
-				addressTag = item.find('Address')
-				address.website = addressTag.find('Website').text
-				for i in addressTag.find('Emails'):
-					address.emails.append(Email(i.text,i.get('type')))
-
-				for i in addressTag.find('Phones'):
-					address.phones.append(Phone(i.text,i.get('type')))
-
-				self.author.address = address
-
-		# on recupere les questions
-		self.questions = xml_root.find("Questions")
 		self.isChating = True
 
 		print(self.welcomeText+"\n")
@@ -223,7 +274,7 @@ class ChatBot:
 			q:str = str(input(">>> ")).lower()
 			choice = self.selectQuestion(q)
 			response:str = self.selectAnswer(choice)
-			print("[Reponse]: "+response)
+			print(response)
 			print("\n")
 			
 

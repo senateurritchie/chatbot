@@ -17,16 +17,28 @@
 	
 	<xsd:element name="Website" type="xsd:anyURI" />
 
-	<xsd:element name="Name">
-		<xsd:simpleType>
-			<xsd:restriction base="xsd:string">
-				<xsd:minLength value="3" />
-				<xsd:maxLength value="30" />
-				<xsd:whiteSpace value="collapse" />
-			</xsd:restriction>
-		</xsd:simpleType>
-	</xsd:element>
+	<xsd:simpleType name="name">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="3" />
+			<xsd:maxLength value="30" />
+			<xsd:whiteSpace value="collapse" />
+		</xsd:restriction>
+	</xsd:simpleType>
 
+	<xsd:element name="Name" type="name" />
+	<xsd:element name="Ceo" type="name" />
+	<xsd:element name="Birth" type="xsd:gYear" />
+	
+
+	<xsd:element name="Company">
+		<xsd:complexType>
+			<xsd:all>
+				<xsd:element ref="Birth" />
+				<xsd:element ref="Ceo" />
+				<xsd:element ref="Name" />
+			</xsd:all>
+		</xsd:complexType>
+	</xsd:element>
 
 	<xsd:element name="Email">
 		<xsd:complexType>
@@ -106,6 +118,8 @@
 				<xsd:element ref="Name" />
 				<xsd:element ref="Website" minOccurs="0" />
 				<xsd:element ref="Author" />
+				<xsd:element ref="Birth" />
+				<xsd:element ref="Company" />
 				<xsd:element name="Welcome" type="xsd:string" />
 
 				<xsd:element name="Version">
@@ -139,22 +153,12 @@
 		</xsd:complexType>
 	</xsd:element>
 
-
 	<xsd:element name="Question">
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element ref="Labels" />
 				<xsd:element ref="Responses" />
 			</xsd:sequence>
-
-			<xsd:attribute name="type" default="predefined">
-				<xsd:simpleType>
-					<xsd:restriction base="xsd:string">
-						<xsd:enumeration value="predefined" />
-						<xsd:enumeration value="fallback" />
-					</xsd:restriction>
-				</xsd:simpleType>
-			</xsd:attribute>
 		</xsd:complexType>
 	</xsd:element>
 
@@ -175,10 +179,19 @@
 		</xsd:complexType>
 	</xsd:element>
 
+	<xsd:element name="Proactivity">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Labels" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
 
 	<xsd:element name="Responses">
 		<xsd:complexType>
 			<xsd:sequence>
+				<xsd:element ref="Proactivity" minOccurs="0" />
 				<xsd:element ref="Response" maxOccurs="unbounded" />
 			</xsd:sequence>
 		</xsd:complexType>

@@ -6,15 +6,21 @@
 
 	<!-- LES PARAMETRES DU BOT -->
 	<Settings>
-		<Name>Bot MxWizard</Name>
+		<Name>COA BOT</Name>
+		<Birth>1980</Birth>
+		<Company>
+			<Name>Côte Ouest Audiovisuel</Name>
+			<Birth>1980</Birth>
+			<Ceo>Bernard Azria</Ceo>
+		</Company>
 		<Welcome>
 			***************************************************************************
 			*                                                                         *
-			*           BIENVENU, PROGRAMME DEVELOPPE PAR AAZ CONSULTING              *
+			*           BIENVENU, COMMENT POUVONS-NOUS VOUS AIDER?                    *
 			*                                                                         *
 			***************************************************************************
 		</Welcome>
-		<Website>https://chatbot.io</Website>
+		<Website>https://www.coteouest.tv</Website>
 		<Version>1.0.0</Version>
 
 		<Author>
@@ -22,14 +28,13 @@
 			<Address>
 				<Emails>
 					<Email type="personal">zakeszako@yahoo.fr</Email>
-					<Email type="profesional">admin@chatbot.io</Email>
+					<Email type="profesional">webmaster@coteouest.ci</Email>
 				</Emails>
 
 				<Phones>
 					<Phone type="personal">+22571439414</Phone>
 					<Phone type="profesional">+22522479613</Phone>
 				</Phones>
-
 				<Website>https://chatbot.io/about</Website>
 			</Address>
 		</Author>
@@ -37,7 +42,7 @@
 	
 	<!-- LES QUESTIONS APPRISES -->
 	<Questions>
-		<Question type="predefined">
+		<Question>
 
 			<Labels>
 				<Label>Comment t'appelles-tu</Label>
@@ -54,49 +59,122 @@
 				
 				<Response>
 					<Labels>
-						<Label>{{ On|Je }} m'appelle {{NAME}}.</Label>
+						<Label>{{ On|Je }} m'appelle __NAME__.</Label>
 					</Labels>
 				</Response>
 
 				<Response>
 					<Labels>
-						<Label>Tu peux m'appeller {{NAME}}.</Label>
+						<Label>Tu peux m'appeller __NAME__.</Label>
 					</Labels>
 				</Response>
 
 				<Response>
 					<Labels>
-						<Label>Vous pouvez m'appeller {{NAME}}.</Label>
+						<Label>Vous pouvez m'appeller __NAME__.</Label>
 					</Labels>
 				</Response>
 
 				<Response>
 					<Labels>
-						<Label>Mon nom est {{NAME}}.</Label>
+						<Label>Mon nom est __NAME__.</Label>
 					</Labels>
 				</Response>
 
 				<Response>
 					<Labels>
-						<Label>Je m'appelle {{NAME}} à l'Etat Civil.</Label>
+						<Label>Je m'appelle __NAME__ à l'Etat Civil.</Label>
 					</Labels>
 				</Response>
 
 				<Response>
 					<Labels>
-						<Label>{{NAME}} à l'Etat Civil.</Label>
+						<Label>__NAME__ à l'Etat Civil.</Label>
 					</Labels>
 				</Response>
 
 				<Response>
 					<Labels>
-						<Label>{{NAME}} est mon nom.</Label>
+						<Label>__NAME__ est mon nom.</Label>
 					</Labels>
 				</Response>
 
 			</Responses>
 
 		</Question>
+
+		<Question>
+
+			<Labels>
+				<Label>Quel age as-tu</Label>
+				<Label>Quel age avez-vous</Label>
+				<Label>Quel est ton age</Label>
+				<Label>ton age</Label>
+
+				<Label>Quel es ta date de naissance</Label>
+				<Label>Ta date de naissance</Label>
+				<Label>Ton année de naissance</Label>
+				<Label>Date de naissance</Label>
+				
+			</Labels>
+
+			<Responses>
+
+				<Proactivity>
+					<Labels>
+						<Label>je {{te|vous}} propose de parler de « __COMPANY_NAME__ »</Label>
+						<Label>Et si {{vous|toi}} et moi parlions de « __COMPANY_NAME__ »</Label>
+						<Label>Revenons à « __COMPANY_NAME__ » {{stp|svp}}.</Label>
+						<Label>Parlons de « __COMPANY_NAME__ » {{stp|svp}}</Label>
+					</Labels>
+				</Proactivity>
+
+
+				<Response>
+					<Labels>
+						<Label>je suis de __BIRTH__</Label>
+					</Labels>
+				</Response>
+
+				<Response>
+					<Labels>
+						<Label>je suis né en __BIRTH__</Label>
+					</Labels>
+				</Response>
+
+
+				<Response>
+					<Labels>
+						<Label>je suis né vers __BIRTH__</Label>
+					</Labels>
+				</Response>
+
+			</Responses>
+
+		</Question>
+
+
+		<Question>
+
+			<Labels>
+				<Label>en quel année a été fondé l'entreprise</Label>
+				<Label>en quel année a été fondé __COMPANY_NAME__</Label>
+				
+				
+			</Labels>
+
+			<Responses>
+
+				<Response>
+					<Labels>
+						<Label>je suis de {{BIRTH}}</Label>
+					</Labels>
+				</Response>
+
+			</Responses>
+
+		</Question>
+
 
 		<Default>
 
