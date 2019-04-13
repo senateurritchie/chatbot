@@ -150,27 +150,66 @@
 				</Response>
 
 			</Responses>
-
 		</Question>
 
 
 		<Question>
-
 			<Labels>
-				<Label>en quel année a été fondé l'entreprise</Label>
-				<Label>en quel année a été fondé __COMPANY_NAME__</Label>
-				
-				
+				<Label>en quel année a été {{fondé|crée}} l'entreprise</Label>
+				<Label>en quel année a été {{fondé|crée}} __COMPANY_NAME__</Label>
+				<Label>date de création de __COMPANY_NAME__</Label>
+				<Label>date de création de l'entreprise</Label>
+				<Label>naissance de l'entreprise</Label>
+				<Label>l'entreprise</Label>
+				<Label>__COMPANY_NAME__</Label>
 			</Labels>
 
 			<Responses>
 
 				<Response>
 					<Labels>
-						<Label>je suis de {{BIRTH}}</Label>
+						<Label>__COMPANY_NAME__ {{a été crée|existe|opère}} depuis 1993</Label>
 					</Labels>
 				</Response>
 
+				<Response>
+					<Labels>
+						<Label>evidenment __COMPANY_NAME__ {{a été crée|existe|opère}} depuis 1993</Label>
+					</Labels>
+				</Response>
+
+			</Responses>
+
+		</Question>
+
+		<Question>
+			<Labels>
+				<Label>qui dirige cette entreprise</Label>
+				<Label>qui dirige __COMPANY_NAME__</Label>
+				<Label>c'est qui le {{directeur|dg|pdg|ceo}}</Label>
+				<Label>qui est le {{directeur|dg|pdg|ceo}} cette {{entreprise|boite}}</Label>
+			</Labels>
+
+			<Responses>
+
+				<Response>
+					<Labels>
+						<Label>bien évidenment le CEO est __COMPANY_CEO__</Label>
+					</Labels>
+				</Response>
+
+				<Response>
+					<Labels>
+						<Label>Le CEO est __COMPANY_CEO__</Label>
+					</Labels>
+				</Response>
+
+				<Response>
+					<Labels>
+						<Label>Il {{se nomme|s'appelle}} __COMPANY_CEO__</Label>
+					</Labels>
+				</Response>
+				
 			</Responses>
 
 		</Question>

@@ -174,10 +174,11 @@ class ChatBot:
 										choices.append((t,len(kwl),index,h,kwl))
 
 
-					text:str = l.text.lower()
+					text:str = l.text
 					if re.match(prog,text):
 						m = re.sub(prog,repl,text)
 					else:
+						text = re.sub(reg,self.formatAnswer,text) 
 						t = damerau_levenshtein(q,text)
 						kwl = []
 
@@ -271,7 +272,7 @@ class ChatBot:
 
 
 		while self.isChating:
-			q:str = str(input(">>> ")).lower()
+			q:str = str(input(">>> "))
 			choice = self.selectQuestion(q)
 			response:str = self.selectAnswer(choice)
 			print(response)
